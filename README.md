@@ -1,59 +1,33 @@
 # BOC Reconciliation and Discrepancy Detection Dashboard
 
-A Python-based data reconciliation dashboard for detecting inconsistencies between customs shipment records and warehouse arrival records.
+A Python-based data reconciliation dashboard designed to identify discrepancies between customs shipment records and warehouse records.
 
-This project demonstrates a workflow for identifying mismatched or missing shipment records using **Python, SQL joins, and an interactive Streamlit dashboard**.
+This project demonstrates a workflow for comparing operational datasets using **data cleaning, SQL joins, and dashboard visualization**.
+
+The system was inspired by my internship work supporting data review processes within the **Bureau of Customs – MIS & Technology Group**.
 
 ---
 
 # Project Background
 
-This project was inspired by my internship experience at:
+During customs operations, shipment records may exist in multiple datasets such as:
 
-**Bureau of Customs – NAIA**
-Management Information Systems and Technology Group
-IT Intern | January 2025 – March 2025
+• processed customs entry records
+• warehouse arrival records
 
-During my internship, I assisted in managing operational data and supporting internal documentation for systems used by the MIS & Technology Group.
+These datasets must be reconciled to ensure consistency and detect potential issues such as:
 
-One of the operational challenges in customs data management is verifying whether **warehouse shipment records match processed customs entries and payment records**.
-This project demonstrates a simplified version of a **data reconciliation workflow** used to detect inconsistencies between datasets.
+* missing records
+* duplicate entries
+* mismatched shipment identifiers
 
----
-
-# Internship Experience Related to this Project
-
-During my internship, I worked on:
-
-* Assisting in managing operational data used by internal teams
-* Supporting documentation of internal system workflows and procedures
-* Developing a **Python-based discrepancy detection workflow** to identify inconsistencies between shipment records and payment entries
-* Using **SQL-based comparison logic** to reconcile multiple datasets
-* Automating reporting using **Excel VBA** to support internal audits and reconciliation tasks
-
-This repository demonstrates a simplified prototype of that workflow using open-source tools.
+This project implements a **Python + SQL reconciliation workflow** that automates this comparison process and visualizes discrepancies through an interactive dashboard.
 
 ---
 
-# Technologies Used
+# Key Features
 
-Python
-
-Libraries used:
-
-* Pandas – data cleaning and transformation
-* NumPy – numerical operations
-* SQLite – SQL-based reconciliation queries
-* Streamlit – interactive web dashboard
-* Matplotlib – data visualization
-
----
-
-# System Workflow
-
-The application performs the following steps:
-
-### 1. Data Upload
+### Data Upload
 
 Users upload an Excel file containing:
 
@@ -62,43 +36,38 @@ Users upload an Excel file containing:
 
 ---
 
-### 2. Data Cleaning and Standardization
+### Data Cleaning and Standardization
 
-The system cleans and standardizes the data by:
+The system automatically:
 
-* Normalizing airway bill numbers
-* Removing invalid or empty records
-* Converting text fields to a consistent format
-* Converting date and numeric columns
+* standardizes airway bill numbers
+* removes invalid or empty entries
+* normalizes text fields
+* converts date and numeric values
 
-This ensures reliable comparison between datasets.
+This ensures datasets are consistent before reconciliation.
 
 ---
 
-### 3. SQL-Based Reconciliation
+### SQL-Based Reconciliation
 
-Cleaned datasets are loaded into an **in-memory SQLite database**.
-
-Several SQL joins are then used to compare the datasets.
+The system loads cleaned data into an **in-memory SQLite database** and performs several join operations.
 
 #### INNER JOIN
 
-Records present in **both PO3 and A02 datasets**
-Represents matched and processed shipments.
+Identifies airway bills present in both datasets (matched records).
 
 #### LEFT JOIN
 
-Records present in **A02 but not in PO3**
-Possible cases include abandoned shipments or pending customs processing.
+Identifies warehouse records with no matching customs entry.
 
 #### RIGHT JOIN (Simulated)
 
-Records present in **PO3 but not in A02**
-May indicate payment entries without corresponding warehouse records.
+Identifies customs entries without corresponding warehouse records.
 
 #### FULL OUTER JOIN (Simulated)
 
-Combines all results and classifies anomalies such as:
+Combines results and classifies anomalies such as:
 
 * MATCHED
 * A02_ONLY
@@ -107,28 +76,41 @@ Combines all results and classifies anomalies such as:
 
 ---
 
-### 4. Duplicate Detection
+### Duplicate Detection
 
-The system also identifies **duplicate airway bills in A02 sheets**, which may indicate data entry issues.
+The system detects duplicate airway bills within warehouse records, which may indicate:
+
+* repeated shipment entries
+* data entry errors
 
 ---
 
-### 5. Dashboard Visualization
+### Interactive Dashboard
 
-The Streamlit dashboard displays:
+The Streamlit dashboard provides:
 
-* Dataset row counts
-* Matched and unmatched shipment records
-* Anomaly classifications
-* Weekly warehouse record counts
+* dataset previews
+* row counts
+* anomaly summaries
+* dataset comparison results
+* visualization of record distributions
 
 Charts are generated using **Matplotlib**.
 
 ---
 
-### 6. Export Results
+# Technology Stack
 
-Users can download the reconciliation output as a **CSV file** for review or audit purposes.
+Language
+Python
+
+Libraries
+
+* Pandas – data cleaning and transformation
+* NumPy – numerical processing
+* SQLite – SQL-based dataset reconciliation
+* Streamlit – dashboard interface
+* Matplotlib – visualization
 
 ---
 
@@ -138,11 +120,11 @@ Install dependencies:
 
 pip install streamlit pandas numpy matplotlib openpyxl
 
-Run the application:
+Run the dashboard:
 
 streamlit run app.py
 
-The dashboard will open in your browser:
+Open in browser:
 
 http://localhost:8501
 
@@ -154,7 +136,7 @@ app.py
 Main Streamlit dashboard application.
 
 requirements.txt
-Python dependencies required to run the project.
+Project dependencies.
 
 boc_demo.db
 Sample SQLite database used during development.
@@ -166,5 +148,5 @@ Sample SQLite database used during development.
 Brianne Leigh S. Baltazar
 Information Technology Student – Mapúa University
 
-GitHub:
+GitHub
 https://github.com/belsbee0017
